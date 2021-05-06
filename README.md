@@ -7,7 +7,7 @@ Dockers image to run the Konakart Community Edition J2EE demo application suppor
 **Prometheus**: a free software application used for event monitoring and alerting. It records real-time metrics in a time series database built using a HTTP pull model, with flexible queries and real-time alerting. https://prometheus.io/
 
 Available images:
-* `konakart_as_tomcat`: Konakart Application Server running on Tomcat, additional info [here](/konakart_dockerized/konakart_as_tomcat/README.md)  
+* `konakart_as_tomcat`: Konakart Application Server running on Tomcat, additional info [here](/konakart_as_tomcat/README.md)  
 * `konakart_db_mysql`: Konakart Community Edition database running on MySQL, additional info [here](/konakart_dockerized/konakart_db_mysql/README.md)  
 * `konakart_db_postgres`: Konakart Community Edition database running on PosgreSQL, additional info [here](/konakart_dockerized/konakart_db_postgres/README.md)  
 
