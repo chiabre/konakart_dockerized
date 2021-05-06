@@ -32,8 +32,8 @@ RUN apk update \
     && chmod +x /opt/konakart/bin/*.sh
 
 # database properties files
-COPY konakartadmin.properties_mysql /opt/konakart/webapps/konakartadmin/WEB-INF/classes/konakartadmin.properties
-COPY konakart.properties_mysql /opt/konakart/webapps/konakart/WEB-INF/classes/konakart.properties
+COPY mysql/konakartadmin.properties /opt/konakart/webapps/konakartadmin/WEB-INF/classes/konakartadmin.properties
+COPY mysql/konakart.properties /opt/konakart/webapps/konakart/WEB-INF/classes/konakart.properties
 
 # jmx exporter config
 COPY jmx_exporter_config.yml /opt/jmx-exporter/config.yml
