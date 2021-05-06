@@ -50,7 +50,7 @@ The Konakart Community Edition provided in this image requires an external datab
 
 To ease the Konakart deployment this repo provides 2 database images:
 
-* `konakart_db_mysql`: Konakart Community Edition database running on MySQL, additional info [here](/konakart_dockerized/konakart_db_mysql/README.md)  
+* `konakart_db_mysql`: Konakart Community Edition database running on MySQL, additional info [here](/konakart_db_mysql/README.md)  
 * `konakart_db_postgres`: Konakart Community Edition database running on PosgreSQL, additional info [here](/konakart_dockerized/konakart_db_postgres/README.md)  
 
 To use custom the `JVM_OPTS` use the `JAVA_OPTS` ENV. variable
