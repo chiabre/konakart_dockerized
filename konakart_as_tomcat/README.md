@@ -1,8 +1,8 @@
-# Docker image for Konakart Community Edition demo Application server+ JMX to Prometheus exporter
+# Docker image for Konakart Community Edition demo Application server + JMX to Prometheus exporter
 
 Docker image to run the Konakart Community Edition J2EE tomcat application server exposing JMX to Prometheus exporter metrics and java options as env. variables.
 
-**Konakart Community Edition** : a java based shopping cart software solution for online retailers. https://www.konakart.com/. ***Official [KonaKart Community Edition images](https://hub.docker.com/r/konakart)***
+**Konakart Community Edition** : a java based shopping cart software solution for online retailers. https://www.konakart.com/.
 
 **JMX to Prometheus exporter**: a collector that can configurably scrape and expose mBeans of a JMX target. https://github.com/prometheus/jmx_exporter
 
@@ -50,14 +50,14 @@ The Konakart Community Edition provided in this image requires an external datab
 
 To ease the Konakart deployment this repo provides 2 database images:
 
-* `konakart_db_mysql`: Konakart Community Edition database running on MySQL, additional info [here](/konakart_dockerized/konakart_db_mysql/README.md)  
-* `konakart_db_postgres`: Konakart Community Edition database running on PosgreSQL, additional info [here](/konakart_dockerized/konakart_db_postgres/README.md)  
+* `konakart_db_mysql`: Konakart Community Edition database running on MySQL, additional info [here](/konakart_db_mysql/README.md)  
+* `konakart_db_postgres`: Konakart Community Edition database running on PosgreSQL, additional info [here](/konakart_db_postgres/README.md)  
 
 To use custom the `JVM_OPTS` use the `JAVA_OPTS` ENV. variable
 
 #### konakart_db_mysql
 
-By default this image use the following database connections parameters: 
+By default this image uses the following database connections parameters: 
 
 * url = `jdbc:mysql://konakart_db_mysql:3306/konakart?zeroDateTimeBehavior=convertToNull&useSSL=false`
 * user = `konakart`
@@ -68,8 +68,8 @@ that are intended to be used for an OOB deployment based on the following deploy
 ##### Docker run
 
 ```console
-docker run --rm -d --name konakart_db_mysql -p 3306:3306/tcp chiabre/konakart_db_mysql:latest
-docker run --rm -d --name konakart_as -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat:latest
+docker run --rm -d --name konakart_db_mysql -p 3306:3306/tcp chiabre/konakart_db_mysql
+docker run --rm -d --name konakart_as -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
 ```
 
 ##### Docker-compose
@@ -78,7 +78,7 @@ docker run --rm -d --name konakart_as -p 9404:9404/tcp -p 8780:8780/tcp chiabre/
 version: "3.8"
 services:
   konakart_as:
-    image: chiabre/konakart_as_tomcat:latest
+    image: chiabre/konakart_as_tomcat
     ports:
     - 9404:9404 #jmx_exporter
     - 8780:8780 #UI
@@ -86,7 +86,7 @@ services:
     networks: 
       - konakart
   konakart_db_mysql:
-    image: chiabre/konakart_db_mysql:latest
+    image: chiabre/konakart_db_mysql
     networks: 
       - konakart
 
@@ -107,8 +107,8 @@ docker network create -d overlay --attachable konakart
 ##### Docker run
 
 ```console
-docker run --rm -d --name konakart_db_postgres -p 5432:5432/tcp chiabre/konakart_db_postgres:9.4.0.1_13.2
-docker run --rm -d --name konakart_as -v ${PWD}/postgres/konakartadmin.properties:/opt/konakart/webapps/konakartadmin/WEB-INF/classes/konakartadmin.properties -v ${PWD}/postgres/konakart.properties:/opt/konakart/webapps/konakart/WEB-INF/classes/konakart.properties -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat:9.4.0.1-java11
+docker run --rm -d --name konakart_db_postgres -p 5432:5432/tcp chiabre/konakart_db_postgres
+docker run --rm -d --name konakart_as -v ${PWD}/postgres/konakartadmin.properties:/opt/konakart/webapps/konakartadmin/WEB-INF/classes/konakartadmin.properties -v ${PWD}/postgres/konakart.properties:/opt/konakart/webapps/konakart/WEB-INF/classes/konakart.properties -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
 ```
 
 ##### Docker-compose
@@ -117,7 +117,7 @@ docker run --rm -d --name konakart_as -v ${PWD}/postgres/konakartadmin.propertie
 version: "3.8"
 services:
   konakart_as:
-    image: chiabre/konakart_as_tomcat:latest
+    image: chiabre/konakart_as_tomcat
     ports:
     - 9404:9404 #jmx_exporter
     - 8780:8780 #UI
@@ -127,8 +127,8 @@ services:
     volumes:
     - ./postgres/konakart.properties:/opt/konakart/webapps/konakart/WEB-INF/classes/konakart.properties:ro
     - ./postgres/konakartadmin.properties:/opt/konakart/webapps/konakartadmin/WEB-INF/classes/konakartadmin.properties:ro
-  konakart_db_mysql:
-    image: chiabre/konakart_db_mysql:latest
+  konakart_db_postgres:
+    image: chiabre/konakart_db_postgres
     networks: 
       - konakart
 
@@ -148,7 +148,7 @@ docker network create -d overlay --attachable konakart
 
 To connect to a different database: 
 
-1. set- as per [Konakart documentation] (https://www.konakart.com/docs/DatabaseNotes.html) - the connections parameters in the `konakart.properties` and `konakartadmin.properties` files (samples of mysql and postres configurations provided the mysql and posgres folders).
+1. set- as per [Konakart documentation] (https://www.konakart.com/docs/DatabaseNotes.html) - the connections parameters in the `konakart.properties` and `konakartadmin.properties` files (samples of MySQL and postreSQL configurations provided the mysql and posgres folders).
 2. mount the 2 file in the following directory:
     * `konakart.properties` -> `/opt/konakart/webapps/konakartadmin/WEB-INF/classes/konakartadmin.properties`
     * `konakartadmin.properties` ->  `/opt/konakart/webapps/konakart/WEB-INF/classes/konakart.properties`

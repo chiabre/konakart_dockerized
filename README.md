@@ -8,8 +8,8 @@ Dockers image to run the Konakart Community Edition J2EE demo application suppor
 
 Available images:
 * `konakart_as_tomcat`: Konakart Application Server running on Tomcat, additional info [here](/konakart_as_tomcat/README.md)  
-* `konakart_db_mysql`: Konakart Community Edition database running on MySQL, additional info [here](/konakart_dockerized/konakart_db_mysql/README.md)  
-* `konakart_db_postgres`: Konakart Community Edition database running on PosgreSQL, additional info [here](/konakart_dockerized/konakart_db_postgres/README.md)  
+* `konakart_db_mysql`: Konakart Community Edition database running on MySQL, additional info [here](/konakart_db_mysql/README.md)  
+* `konakart_db_postgres`: Konakart Community Edition database running on PosgreSQL, additional info [here](/konakart_db_postgres/README.md)  
 
 ## Konakart deploy
 
@@ -24,8 +24,8 @@ that are intended to be used for an OOB deployment based on the following deploy
 ### Docker run
 
 ```console
-docker run --rm -d --name konakart_db_mysql -p 3306:3306/tcp chiabre/konakart_db_mysql:latest
-docker run --rm -d --name konakart_as -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat:latest
+docker run --rm -d --name konakart_db_mysql -p 3306:3306/tcp chiabre/konakart_db_mysql
+docker run --rm -d --name konakart_as -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
 ```
 
 ### Docker-compose
@@ -34,7 +34,7 @@ docker run --rm -d --name konakart_as -p 9404:9404/tcp -p 8780:8780/tcp chiabre/
 version: "3.8"
 services:
   konakart_as:
-    image: chiabre/konakart_as_tomcat:latest
+    image: chiabre/konakart_as_tomcat
     ports:
     - 9404:9404 #jmx_exporter
     - 8780:8780 #UI
@@ -42,7 +42,7 @@ services:
     networks: 
       - konakart
   konakart_db_mysql:
-    image: chiabre/konakart_db_mysql:latest
+    image: chiabre/konakart_db_mysql
     networks: 
       - konakart
 
@@ -58,4 +58,4 @@ konakart overlay network has to be configured upfront using
 docker network create -d overlay --attachable konakart
 ```
 
-Additional information on how to configure the Konakart AS to use a different database configuration [here](/konakart_dockerized/konakart_as_tomcat/README.md)  
+Additional information on how to configure the Konakart AS to use a different database configuration [here](/konakart_as_tomcat/README.md)  
