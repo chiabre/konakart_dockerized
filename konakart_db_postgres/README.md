@@ -36,13 +36,13 @@ build.sh
 
 ### Run
 
-#### Konakart 13.2 server
+#### PostgreSQL Konakart Server
 
 ```bash
 docker run --rm -d --name konakart_db_postgres -p 3306:3306/tcp chiabre/konakart_db_postgres
 ```
 
-#### 13.2 Server Exporter 
+#### Prometheus Monitoring Community PostgreSQL Exporter
 
 ```bash
 docker run --net=akamas_lab -p 9187:9187/tcp -e DATA_SOURCE_NAME="postgresql://konakart:konakart@konakart_db_postgres:5432/konakart?sslmode=disable" quay.io/prometheuscommunity/postgres-exporter
