@@ -75,11 +75,11 @@ to modify one of the connections parameter refer to the custom database section
 
 ### konakart_db_postgres
 
-To use the `konakart_db_postgres` img add the env. variables `DB_ADAPTER="postgresql"` and `DB_URL="jdbc:postgresql://konakart_db_postgres:5432/konakart"` to the docker run command as in the following example
+To use the `konakart_db_postgres` img add the env. variables `DB_ADAPTER="postgresql"`,`DB_DRIVER="org.postgresql.Driver"`, and `DB_URL="jdbc:postgresql://konakart_db_postgres:5432/konakart"` to the docker run command as in the following example
 
 ```console
 docker run --rm -d --name konakart_db_postgres -p 5432:5432/tcp chiabre/konakart_db_postgres
-docker run --rm -d --name konakart_as -e DB_ADAPTER="postgresql" -e DB_URL="jdbc:postgresql://konakart_db_postgres:5432/konakart" -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
+docker run --rm -d --name konakart_as -e DB_ADAPTER="postgresql" -e DB_DRIVER="org.postgresql.Driver" -e DB_URL="jdbc:postgresql://konakart_db_postgres:5432/konakart" -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
 ```
 
 ### custom database 
@@ -89,6 +89,7 @@ As per [Konakart documentation] (https://www.konakart.com/docs/DatabaseNotes.htm
 This the availabe env. variables:
 
 * `DB_ADAPTER`
+* `DB_DRIVER`
 * `DB_URL`
 * `DB_USER`
 * `DB_PWD`

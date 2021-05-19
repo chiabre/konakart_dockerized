@@ -6,7 +6,7 @@ JMX_EXPORTER_VERSION="0.15.0"
 
 IMG_VERSION="0.1"
 
-for JAVA_VERSION in 8 11 16
+for JAVA_VERSION in 8 11
 do
     for JAVA_JVM in "" "-openj9"
     do

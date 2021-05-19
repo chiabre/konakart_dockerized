@@ -8,16 +8,20 @@ Dockers image to run the Konakart Community Edition J2EE demo application suppor
 
 Available images:
 * `konakart_as_tomcat`: Konakart Application Server running on Tomcat, additional info [here](/konakart_as_tomcat/README.md)  
-* `konakart_db_mysql`: Konakart Community Edition database running on MySQL, additional info [here](/konakart_db_mysql/README.md)  
-* `konakart_db_postgres`: Konakart Community Edition database running on PosgreSQL, additional info [here](/konakart_db_postgres/README.md)  
+* `konakart_db_mysql`: Konakart Community Edition database (demo data) running on MySQL, additional info [here](/konakart_db_mysql/README.md)  
+* `konakart_db_postgres`: Konakart Community Edition database (demo data) running on PosgreSQL, additional info [here](/konakart_db_postgres/README.md)  
 
 ## Konakart deploy
 
 By default the konakart application server provided by konakart_as_tomcat connects to a mysql database using the following parameters 
 
-* url = `jdbc:mysql://konakart_db_mysql:3306/konakart?zeroDateTimeBehavior=convertToNull&useSSL=false`
-* user = `konakart`
-* password = `konakart`
+```properties
+torque.database.store1.adapter=mysql
+torque.dsfactory.store1.connection.driver=com.mysql.jdbc.Driver
+torque.dsfactory.store1.connection.url=jdbc:mysql://konakart_db_mysql:3306/konakart?zeroDateTimeBehavior\=convertToNull\&useSSL\=false
+torque.dsfactory.store1.connection.user=konakart
+torque.dsfactory.store1.connection.password=konakart
+```
 
 that are intended to be used for an OOB deployment based on the following deployment options
 
@@ -27,31 +31,6 @@ that are intended to be used for an OOB deployment based on the following deploy
 docker run --rm -d --name konakart_db_mysql -p 3306:3306/tcp chiabre/konakart_db_mysql
 docker run --rm -d --name konakart_as -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
 ```
-
-### Docker-compose
-
-```yaml
-version: "3.8"
-services:
-  konakart_as:
-    image: chiabre/konakart_as_tomcat
-    ports:
-    - 9404:9404 #jmx_exporter
-    - 8780:8780 #UI
-    - 8783:8783 #Admin UI
-    networks: 
-      - konakart
-  konakart_db_mysql:
-    image: chiabre/konakart_db_mysql
-    networks: 
-      - konakart
-
-networks:
-  konakart:
-    external: true
-    name: konakart
-```
-
 konakart overlay network has to be configured upfront using
 
 ```console

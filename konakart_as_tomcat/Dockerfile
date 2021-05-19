@@ -14,6 +14,7 @@ ENV JMX_EXPORTER_DOWNLOAD_URL https://repo1.maven.org/maven2/io/prometheus/jmx/j
 ENV JAVA_OPTS "-Xmx1400m -Xms400m" 
 
 ENV DB_ADAPTER mysql
+ENV DB_DRIVER com.mysql.jdbc.Driver
 ENV DB_URL "jdbc:mysql://konakart_db_mysql:3306/konakart?zeroDateTimeBehavior=convertToNull&useSSL=false"
 ENV DB_USER konakart
 ENV DB_PWD konakart
@@ -32,7 +33,7 @@ RUN apk update \
     && /tmp/KonaKart-${KONAKART_VERSION}-Linux-Install-64 -S \
         -DJavaJRE ${JAVA_HOME} \
         -DDatabaseType ${DB_ADAPTER} \
-        -DDatabaseDriver com.${DB_ADAPTER}.jdbc.Driver \
+        -DDatabaseDriver ${DB_DRIVER} \
         -DDatabaseUrl ${DB_URL} \
         -DDatabaseUsername ${DB_USER} \
         -DDatabasePassword ${DB_PWD} \

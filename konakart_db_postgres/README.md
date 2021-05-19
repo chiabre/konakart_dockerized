@@ -1,6 +1,6 @@
-# Docker image for Konakart Community Edition demo postgreSQL server
+# Docker image for Konakart Community Edition postgreSQL server (demo data)
 
-Docker image to run the Konakart Community Edition postgreSQL server already configured to expose postgreSQL metrics to Prometheus.
+Docker image to run the Konakart Community Edition postgreSQL server already configured to expose postgreSQL metrics to Prometheus and loaded with demo data.
 
 **Konakart Community Edition** : a java based shopping cart software solution for online retailers. https://www.konakart.com/.
 
