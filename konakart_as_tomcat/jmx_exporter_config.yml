@@ -30,3 +30,18 @@ rules:
     host: "$1"
   help: Tomcat session $3 total
   type: COUNTER
+- pattern: 'java.lang<type=Compilation><>TotalCompilationTime'
+  name: java_lang_compilation_totalcompilationtime
+- pattern: 'java.lang<type=OperatingSystem><>ProcessCpuTime'
+  name: java_lang_operatingsystem_processcputime
+- pattern: 'java.lang<type=OperatingSystem><>SystemCpuLoad'
+  name: java_lang_operatingsystem_systemcpuload
+- pattern: 'java.lang<type=OperatingSystem><>ProcessCpuLoad'
+  name: java_lang_operatingsystem_processcpuload
+- pattern: 'java.lang<type=OperatingSystem><>SystemLoadAverage'
+  name: java_lang_operatingsystem_systemloadaverage
+- pattern: 'java.lang<type=OperatingSystem><>AvailableProcessors'
+  name: java_lang_operatingsystem_availableprocessors
+
+#https://grafana.com/grafana/dashboards/8563
+

@@ -5,35 +5,44 @@ FROM adoptopenjdk/openjdk${JAVA_VERSION}${JAVA_JVM}:alpine-jre
 
 LABEL maintainer="luca.chiabrera@gmail.com"
 
+ARG KONAKART_VERSION="9.4.0.1"
+ENV KONAKART_DOWNLOAD_URL https://www.konakart.com/kits/${KONAKART_VERSION}/KonaKart-${KONAKART_VERSION}-Linux-Install-64
+
 ARG JMX_EXPORTER_VERSION="0.15.0"
 ENV JMX_EXPORTER_DOWNLOAD_URL https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/${JMX_EXPORTER_VERSION}/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar
 
-ARG KONAKART_VERSION="9.4.0.1"
-ENV KONAKART_DOWNLOAD_URL https://www.konakart.com/kits/${KONAKART_VERSION}/KonaKart-${KONAKART_VERSION}.zip 
-
-
 ENV JAVA_OPTS "-Xmx1400m -Xms400m" 
 
+ENV DB_ADAPTER mysql
+ENV DB_URL "jdbc:mysql://konakart_db_mysql:3306/konakart?zeroDateTimeBehavior=convertToNull&useSSL=false"
+ENV DB_USER konakart
+ENV DB_PWD konakart
 
 RUN apk update \
     && apk upgrade \
     && apk add ca-certificates \
     && update-ca-certificates \
     && apk add --no-cache \
-    unzip \
     curl \
     && rm -rf /var/cache/apk/* \ 
     && mkdir -p /opt/jmx-exporter/ \
     && curl --location --silent --show-error --output /opt/jmx-exporter/jmx_prometheus_javaagent.jar ${JMX_EXPORTER_DOWNLOAD_URL} \
-    && curl --location --silent --show-error --output /tmp/KonaKart.zip ${KONAKART_DOWNLOAD_URL} \    
-    && unzip -qq /tmp/KonaKart.zip -d /opt/ \
-    && rm /tmp/KonaKart.zip \
-    && sh /opt/konakart/custom/copyDuplicates.sh /opt/konakart \
-    && chmod +x /opt/konakart/bin/*.sh
+    && curl --location --silent --show-error --output /tmp/KonaKart-${KONAKART_VERSION}-Linux-Install-64 ${KONAKART_DOWNLOAD_URL} \
+    && chmod +x /tmp/KonaKart-${KONAKART_VERSION}-Linux-Install-64 \  
+    && /tmp/KonaKart-${KONAKART_VERSION}-Linux-Install-64 -S \
+        -DJavaJRE ${JAVA_HOME} \
+        -DDatabaseType ${DB_ADAPTER} \
+        -DDatabaseDriver com.${DB_ADAPTER}.jdbc.Driver \
+        -DDatabaseUrl ${DB_URL} \
+        -DDatabaseUsername ${DB_USER} \
+        -DDatabasePassword ${DB_PWD} \
+        -DLoadDB 0 \
+        -DInstallationDir /opt/konakart/ \
+    && rm /tmp/KonaKart-${KONAKART_VERSION}-Linux-Install-64 
 
 # database properties files
-COPY mysql/konakartadmin.properties /opt/konakart/webapps/konakartadmin/WEB-INF/classes/konakartadmin.properties
-COPY mysql/konakart.properties /opt/konakart/webapps/konakart/WEB-INF/classes/konakart.properties
+COPY db/konakartadmin.properties /opt/konakart/webapps/konakartadmin/WEB-INF/classes/konakartadmin.properties
+COPY db/konakart.properties /opt/konakart/webapps/konakart/WEB-INF/classes/konakart.properties
 
 # jmx exporter config
 COPY jmx_exporter_config.yml /opt/jmx-exporter/config.yml
