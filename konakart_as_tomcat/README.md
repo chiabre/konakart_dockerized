@@ -68,8 +68,9 @@ torque.dsfactory.store1.connection.password=konakart
 that are intended to be used for an OOB deployment based on the `chiabre/konakart_db_mysql` image
 
 ```console
-docker run --rm -d --name konakart_db_mysql -p 3306:3306/tcp chiabre/konakart_db_mysql
-docker run --rm -d --name konakart_as -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
+docker network create -d overlay --attachable konakart
+docker run --rm -d --name konakart_db_mysql -net konakart -p 3306:3306/tcp chiabre/konakart_db_mysql
+docker run --rm -d --name konakart_as -net konakart -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
 ```
 to modify one of the connections parameter refer to the custom database section
 
@@ -78,15 +79,16 @@ to modify one of the connections parameter refer to the custom database section
 To use the `konakart_db_postgres` img add the env. variables `DB_ADAPTER="postgresql"`,`DB_DRIVER="org.postgresql.Driver"`, and `DB_URL="jdbc:postgresql://konakart_db_postgres:5432/konakart"` to the docker run command as in the following example
 
 ```console
-docker run --rm -d --name konakart_db_postgres -p 5432:5432/tcp chiabre/konakart_db_postgres
-docker run --rm -d --name konakart_as -e DB_ADAPTER="postgresql" -e DB_DRIVER="org.postgresql.Driver" -e DB_URL="jdbc:postgresql://konakart_db_postgres:5432/konakart" -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
+docker network create -d overlay --attachable konakart
+docker run --rm -d --name konakart_db_postgres -net konakart -p 5432:5432/tcp chiabre/konakart_db_postgres
+docker run --rm -d --name konakart_as -net konakart -e DB_ADAPTER="postgresql" -e DB_DRIVER="org.postgresql.Driver" -e DB_URL="jdbc:postgresql://konakart_db_postgres:5432/konakart" -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
 ```
 
 ### custom database 
 
-As per [Konakart documentation] (https://www.konakart.com/docs/DatabaseNotes.html) the database connections parameter are managed in the `konakart.properties` and `konakartadmin.properties` files.
+As per [Konakart documentation] (https://www.konakart.com/docs/DatabaseNotes.html) the database connection parameters are managed in the `konakart.properties` and `konakartadmin.properties` files.
 
-This the availabe env. variables:
+Changes to the default configuration can be managed via the following env. variables:
 
 * `DB_ADAPTER`
 * `DB_DRIVER`
@@ -94,11 +96,11 @@ This the availabe env. variables:
 * `DB_USER`
 * `DB_PWD`
 
-This how the above env. variables are applied n the `konakart.properties` and `konakartadmin.properties` files:
+that will be applied in the `konakart.properties` and `konakartadmin.properties` files as follow:
 
 ```properties
 torque.database.store1.adapter             = ${env:DB_ADAPTER}
-torque.dsfactory.store1.connection.driver  = com.${env:DB_ADAPTER}.jdbc.Driver
+torque.dsfactory.store1.connection.driver  = ${env:DB_DRIVER}
 torque.dsfactory.store1.connection.url     = ${env:DB_URL}
 torque.dsfactory.store1.connection.user    = ${env:DB_USER}
 torque.dsfactory.store1.connection.password= ${env:DB_PWD}

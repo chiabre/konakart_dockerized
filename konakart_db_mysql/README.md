@@ -39,11 +39,12 @@ build.sh
 #### Konakart MySQL server
 
 ```bash
-docker run --rm -d --name konakart_db_mysql -p 3306:3306/tcp chiabre/konakart_db_mysql
+docker network create -d overlay --attachable konakart
+docker run --rm -d --name konakart_db_mysql --net konakart -p 3306:3306/tcp chiabre/konakart_db_mysql
 ```
 
 #### MySQL Server Exporter 
 
 ```bash
-docker run --rm -d --name mysqld_exporter -p 9104:9104 -e DATA_SOURCE_NAME="exporter_usr:exporter_pwd@(konakart_db_mysql:3306)/konakart" prom/mysqld-exporter
+docker run --rm -d --name mysqld_exporter --network konakart -p 9104:9104 -e DATA_SOURCE_NAME="exporter_usr:exporter_pwd@(konakart_db_mysql:3306)/konakart" prom/mysqld-exporter
 ```

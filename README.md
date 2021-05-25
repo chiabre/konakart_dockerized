@@ -28,13 +28,9 @@ that are intended to be used for an OOB deployment based on the following deploy
 ### Docker run
 
 ```console
-docker run --rm -d --name konakart_db_mysql -p 3306:3306/tcp chiabre/konakart_db_mysql
-docker run --rm -d --name konakart_as -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
-```
-konakart overlay network has to be configured upfront using
-
-```console
 docker network create -d overlay --attachable konakart
+docker run --rm -d --name konakart_db_mysql --net konakart -p 3306:3306/tcp chiabre/konakart_db_mysql
+docker run --rm -d --name konakart_as --net konakart -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
 ```
 
 Additional information on how to configure the Konakart AS to use a different database configuration [here](/konakart_as_tomcat/README.md)  
