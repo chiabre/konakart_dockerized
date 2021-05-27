@@ -36,7 +36,7 @@ after each request uniform random timer of `-JRANDOM_DELAY_MAX_MS` (default 100m
 
 ## Plateua test plan ##
 
-![Thread group](konakart_dockerized/konakart_as_tomcat/jmeter_test/plateau_thread_group.png)
+![Thread group](/konakart_as_tomcat/jmeter_test/img/plateau_thread_group.png)
 
 ### Variables ###
 
