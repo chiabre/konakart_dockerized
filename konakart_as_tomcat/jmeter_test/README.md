@@ -8,8 +8,6 @@ test fragment and test plan files have to be in the same folder. The test can be
 
 ## Test fragment
 
-![Test fragment](/jmeter_test/img/test_fragment.png)
-
 1. Welcome (homepage)
 2. Random category page x2
 3. Random manufactor page x2
@@ -27,7 +25,7 @@ after each request uniform random timer of `-JRANDOM_DELAY_MAX_MS` (default 100m
 
 ## Ramp test plan ##
 
-![Thread group](/jmeter_test/img/ramp_thread_group.png)
+![Thread group](/konakart_as_tomcat/jmeter_test/img/ramp_thread_group.png)
 
 ### Variables ###
 
