@@ -1,6 +1,19 @@
 #!/bin/bash
 
-docker run --rm -d --name konakart_as -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat_2:9.4.0.1-java16
 
-## postgres db
-## docker run --rm -d --name konakart_as -v ${PWD}/postgres/konakartadmin.properties:/opt/konakart/webapps/konakartadmin/WEB-INF/classes/konakartadmin.properties -v ${PWD}/postgres/konakart.properties:/opt/konakart/webapps/konakart/WEB-INF/classes/konakart.properties -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat:9.4.0.1-java11
+##MYSQL
+docker network create -d overlay --attachable konakart
+docker run --rm -d --name konakart_db_mysql --net konakart -p 3306:3306/tcp chiabre/konakart_db_mysql
+sleep 120
+# docker run --rm -d --name konakart_as --net konakart -e DB_ADAPTER="mysql" -e DB_DRIVER="com.mysql.cj.jdbc.Driver" -e DB_URL="jdbc:mysql://konakart_db_mysql:3306/konakart?zeroDateTimeBehavior=convertToNull&useSSL=false" -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
+docker run --rm -d --name konakart_as --net konakart -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
+
+
+##POSTGRES
+# docker network create -d overlay --attachable konakart
+# docker run --rm -d --name konakart_db_postgres --net konakart -p 5432:5432/tcp chiabre/konakart_db_postgres
+# sleep 60
+# docker run --rm -d --name konakart_as --net konakart -e DB_ADAPTER="postgresql" -e DB_DRIVER="org.postgresql.Driver" -e DB_URL="jdbc:postgresql://konakart_db_postgres:5432/konakart" -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
+
+
+

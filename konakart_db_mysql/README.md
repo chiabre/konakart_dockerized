@@ -23,8 +23,10 @@ In addition to the standard [Konakart Community Edition](https://www.konakart.co
 
 ### Supported tags
 
+* Konakart Community Edition 9600, MySQL 8.0.32
+   * `latest`, `9.6.0.1-8.0.32`
 * Konakart Community Edition 9401, MySQL 8.0.24
-   * `latest`, `9.4.0.1-8.0.24`
+   *  `9.4.0.1-8.0.24`
 
 ## How to use this image
 

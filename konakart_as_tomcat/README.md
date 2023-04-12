@@ -8,7 +8,7 @@ Docker image to run the Konakart Community Edition J2EE tomcat application serve
 
 The **version number** of this images is composed of 3 version numbers:
   * the first is the version of the Konakart Community Edition 
-  * the second is the Java version and Java JVM (hotspot or openj9) 
+  * the second is the JVM 
   * the third is the img version itself
 
 ## KonaKart Community Edition demo + JMX to Prometheus exporter
@@ -26,8 +26,12 @@ In addition to the standard [Konakart Community Edition](https://www.konakart.co
 
 ### Supported tags
 
+* Konakart Community Edition 9600, Java 17, Tomcat 9.0.31.0, JMX to Prometheus exporter 0.18, db connection parameters via env. variables
+   * `latest`,`9.6.0.0-17-0.2`
+* Konakart Community Edition 9600, Java 11, Tomcat 9.0.31.0, JMX to Prometheus exporter 0.18, db connection parameters via env. variables
+   * `9.6.0.0-11-0.2`
 * Konakart Community Edition 9401, Java 11 hotspot, Tomcat 9.0.31.0, JMX to Prometheus exporter 0.15, db connection parameters via env. variables
-   * `latest`, `9.4.0.1-java11-0.1`
+   * `9.4.0.1-java11-0.1`
 * Konakart Community Edition 9401, Java 11 openj9, Tomcat 9.0.31.0, JMX to Prometheus exporter 0.15, db connection parameters via env. variables
    * `9.4.0.1-java11-openj9-0.1`
 * Konakart Community Edition 9401, Java 8 hotspot, Tomcat 9.0.31.0, JMX to Prometheus exporter 0.15, db connection parameters via env. variables
@@ -43,7 +47,7 @@ In addition to the standard [Konakart Community Edition](https://www.konakart.co
 * Konakart Community Edition 9401, Java 8 openj9, Tomcat 9.0.31.0, JMX to Prometheus exporter 0.15, db connection parameters via file mount
    * `9.4.0.1-java8-openj9`
 
-## How to use this image (v0.1)
+## How to use this image (from v0.1)
 
 The Konakart Community Edition provided in this image requires an external database to be executed that can be easily connected thanks to the dedicated env. variables. 
 
@@ -69,8 +73,8 @@ that are intended to be used for an OOB deployment based on the `chiabre/konakar
 
 ```console
 docker network create -d overlay --attachable konakart
-docker run --rm -d --name konakart_db_mysql -net konakart -p 3306:3306/tcp chiabre/konakart_db_mysql
-docker run --rm -d --name konakart_as -net konakart -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
+docker run --rm -d --name konakart_db_mysql --net konakart -p 3306:3306/tcp chiabre/konakart_db_mysql
+docker run --rm -d --name konakart_as --net konakart -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
 ```
 to modify one of the connections parameter refer to the custom database section
 
@@ -80,8 +84,8 @@ To use the `konakart_db_postgres` img add the env. variables `DB_ADAPTER="postgr
 
 ```console
 docker network create -d overlay --attachable konakart
-docker run --rm -d --name konakart_db_postgres -net konakart -p 5432:5432/tcp chiabre/konakart_db_postgres
-docker run --rm -d --name konakart_as -net konakart -e DB_ADAPTER="postgresql" -e DB_DRIVER="org.postgresql.Driver" -e DB_URL="jdbc:postgresql://konakart_db_postgres:5432/konakart" -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
+docker run --rm -d --name konakart_db_postgres --net konakart -p 5432:5432/tcp chiabre/konakart_db_postgres
+docker run --rm -d --name konakart_as --net konakart -e DB_ADAPTER="postgresql" -e DB_DRIVER="org.postgresql.Driver" -e DB_URL="jdbc:postgresql://konakart_db_postgres:5432/konakart" -p 9404:9404/tcp -p 8780:8780/tcp chiabre/konakart_as_tomcat
 ```
 
 ### custom database 

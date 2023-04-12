@@ -23,8 +23,12 @@ In addition to the standard [Konakart Community Edition](https://www.konakart.co
 
 ### Supported tags
 
+* Konakart Community Edition 9600, postgreSQL 15.2
+   * `latest`, `9.6.0.1-15.2`
+* Konakart Community Edition 9600, postgreSQL 13.8  
+   * `9.6.0.0-13.8`
 * Konakart Community Edition 9401, postgreSQL 13.2
-   * `latest`, `9.4.0.1-13.2`
+   * `9.4.0.1-13.2`
 
 ## How to use this image
 
